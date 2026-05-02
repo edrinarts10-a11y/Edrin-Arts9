@@ -1,0 +1,1716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sunset Strip Motel — Route 66</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Bebas+Neue&family=Crimson+Pro:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --night: #0a0c14;
+    --deep: #0f1220;
+    --neon-red: #ff3b4e;
+    --neon-amber: #ffb830;
+    --neon-teal: #00e5c8;
+    --neon-pink: #ff6b9d;
+    --cream: #f5e6c8;
+    --muted: #8a7e6e;
+    --glow-red: 0 0 10px #ff3b4e88, 0 0 30px #ff3b4e44, 0 0 60px #ff3b4e22;
+    --glow-amber: 0 0 10px #ffb83088, 0 0 30px #ffb83044, 0 0 60px #ffb83022;
+    --glow-teal: 0 0 10px #00e5c888, 0 0 30px #00e5c844;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--night);
+    color: var(--cream);
+    font-family: 'Crimson Pro', Georgia, serif;
+    font-weight: 300;
+    overflow-x: hidden;
+    cursor: default;
+  }
+
+  /* ── NOISE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.5;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.2rem 3rem;
+    background: linear-gradient(to bottom, rgba(10,12,20,0.95), transparent);
+    backdrop-filter: blur(2px);
+  }
+
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.5rem;
+    letter-spacing: 0.15em;
+    color: var(--neon-amber);
+    text-shadow: var(--glow-amber);
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: 'Crimson Pro', serif;
+    font-size: 0.95rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--cream);
+    text-decoration: none;
+    opacity: 0.75;
+    transition: opacity 0.2s, color 0.2s;
+  }
+
+  .nav-links a:hover {
+    opacity: 1;
+    color: var(--neon-amber);
+  }
+
+  .nav-book {
+    background: transparent;
+    border: 1px solid var(--neon-red);
+    color: var(--neon-red);
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: 0.12em;
+    font-size: 0.9rem;
+    padding: 0.5rem 1.4rem;
+    cursor: pointer;
+    transition: background 0.2s, box-shadow 0.2s;
+    text-shadow: var(--glow-red);
+    box-shadow: inset 0 0 0 0 var(--neon-red);
+  }
+
+  .nav-book:hover {
+    background: var(--neon-red);
+    color: var(--night);
+    box-shadow: var(--glow-red);
+    text-shadow: none;
+  }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-rows: 1fr;
+    place-items: center;
+    position: relative;
+    overflow: hidden;
+    padding-top: 5rem;
+  }
+
+  /* Stars */
+  #hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(1px 1px at 10% 15%, #fff8 0, transparent 0),
+      radial-gradient(1px 1px at 25% 40%, #fff6 0, transparent 0),
+      radial-gradient(1.5px 1.5px at 40% 8%, #fff9 0, transparent 0),
+      radial-gradient(1px 1px at 60% 30%, #fff7 0, transparent 0),
+      radial-gradient(1px 1px at 75% 12%, #fff8 0, transparent 0),
+      radial-gradient(1.5px 1.5px at 85% 55%, #fff6 0, transparent 0),
+      radial-gradient(1px 1px at 90% 20%, #fff9 0, transparent 0),
+      radial-gradient(1px 1px at 15% 65%, #fff5 0, transparent 0),
+      radial-gradient(2px 2px at 50% 50%, #fff4 0, transparent 0),
+      radial-gradient(1px 1px at 35% 80%, #fff6 0, transparent 0);
+    animation: twinkle 6s infinite alternate;
+  }
+
+  @keyframes twinkle {
+    0% { opacity: 0.6; }
+    50% { opacity: 1; }
+    100% { opacity: 0.7; }
+  }
+
+  /* Road gradient at bottom */
+  #hero::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 180px;
+    background: linear-gradient(to top, rgba(15,18,32,1) 0%, transparent 100%);
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    animation: fadeUp 1.2s ease both;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero-eyebrow {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.4em;
+    color: var(--neon-teal);
+    text-shadow: var(--glow-teal);
+    animation: fadeUp 1s 0.2s both;
+  }
+
+  /* NEON SIGN */
+  .neon-sign {
+    line-height: 0.9;
+    animation: fadeUp 1s 0.4s both;
+  }
+
+  .neon-sign .line1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(4rem, 12vw, 9rem);
+    letter-spacing: 0.05em;
+    color: var(--neon-red);
+    text-shadow: var(--glow-red);
+    display: block;
+    animation: flicker 8s 3s infinite;
+  }
+
+  .neon-sign .line2 {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: clamp(2rem, 6vw, 4.5rem);
+    color: var(--neon-amber);
+    text-shadow: var(--glow-amber);
+    display: block;
+    letter-spacing: 0.02em;
+  }
+
+  .neon-sign .line3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(3.5rem, 10vw, 8rem);
+    letter-spacing: 0.08em;
+    color: var(--neon-red);
+    text-shadow: var(--glow-red);
+    display: block;
+    animation: flicker 8s 5s infinite;
+  }
+
+  @keyframes flicker {
+    0%, 97%, 100% { opacity: 1; }
+    98% { opacity: 0.6; }
+    98.5% { opacity: 1; }
+    99% { opacity: 0.4; }
+    99.5% { opacity: 1; }
+  }
+
+  .hero-tag {
+    font-size: 1.05rem;
+    color: var(--muted);
+    font-style: italic;
+    letter-spacing: 0.04em;
+    animation: fadeUp 1s 0.6s both;
+  }
+
+  .hero-cta {
+    display: flex;
+    gap: 1.2rem;
+    margin-top: 0.5rem;
+    animation: fadeUp 1s 0.8s both;
+  }
+
+  .btn-primary {
+    background: var(--neon-red);
+    color: var(--night);
+    border: none;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1rem;
+    letter-spacing: 0.15em;
+    padding: 0.85rem 2.4rem;
+    cursor: pointer;
+    box-shadow: var(--glow-red);
+    transition: transform 0.2s, box-shadow 0.2s;
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%);
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 20px #ff3b4eaa, 0 0 50px #ff3b4e66;
+  }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--cream);
+    border: 1px solid rgba(245,230,200,0.3);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1rem;
+    letter-spacing: 0.15em;
+    padding: 0.85rem 2.4rem;
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  .btn-ghost:hover {
+    border-color: var(--cream);
+    color: var(--cream);
+  }
+
+  /* Vacancy sign */
+  .vacancy-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    border: 2px solid var(--neon-teal);
+    color: var(--neon-teal);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.2em;
+    padding: 0.35rem 1rem;
+    box-shadow: var(--glow-teal), inset 0 0 15px rgba(0,229,200,0.08);
+    animation: fadeUp 1s 1s both, pulse-teal 2s 2s infinite;
+  }
+
+  @keyframes pulse-teal {
+    0%, 100% { box-shadow: var(--glow-teal), inset 0 0 15px rgba(0,229,200,0.08); }
+    50% { box-shadow: 0 0 20px #00e5c8aa, 0 0 50px #00e5c866, inset 0 0 15px rgba(0,229,200,0.15); }
+  }
+
+  .vacancy-dot {
+    width: 8px; height: 8px;
+    background: var(--neon-teal);
+    border-radius: 50%;
+    animation: blink 1s infinite;
+    box-shadow: var(--glow-teal);
+  }
+
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+
+  /* Road element */
+  .road {
+    position: absolute;
+    bottom: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 200px;
+    height: 120px;
+    z-index: 1;
+    opacity: 0.35;
+  }
+
+  /* ── SECTION COMMONS ── */
+  section {
+    padding: 6rem 2rem;
+  }
+
+  .section-label {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.45em;
+    color: var(--neon-amber);
+    text-shadow: var(--glow-amber);
+    text-align: center;
+    margin-bottom: 0.8rem;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    text-align: center;
+    font-weight: 400;
+    margin-bottom: 1rem;
+    line-height: 1.15;
+  }
+
+  .section-sub {
+    text-align: center;
+    color: var(--muted);
+    font-size: 1.05rem;
+    max-width: 500px;
+    margin: 0 auto 3.5rem;
+    line-height: 1.7;
+  }
+
+  /* ── ABOUT STRIP ── */
+  #about {
+    background: var(--deep);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    padding: 0;
+    min-height: 420px;
+    overflow: hidden;
+  }
+
+  .about-visual {
+    background:
+      linear-gradient(135deg, rgba(255,59,78,0.15) 0%, rgba(255,184,48,0.08) 100%),
+      repeating-linear-gradient(
+        -45deg,
+        transparent,
+        transparent 20px,
+        rgba(255,184,48,0.03) 20px,
+        rgba(255,184,48,0.03) 21px
+      );
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    min-height: 420px;
+  }
+
+  .motel-illustration {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem;
+  }
+
+  /* Simple SVG-style motel art via CSS */
+  .motel-art {
+    position: relative;
+    width: 260px;
+    height: 200px;
+  }
+
+  .motel-building {
+    position: absolute;
+    bottom: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 220px;
+    height: 140px;
+    background: linear-gradient(to bottom, #1a1f35, #12172a);
+    border: 1px solid rgba(255,184,48,0.2);
+  }
+
+  .motel-roof {
+    position: absolute;
+    top: -25px; left: 50%;
+    transform: translateX(-50%);
+    width: 240px;
+    height: 30px;
+    background: linear-gradient(to bottom, #ff3b4e, #cc2e3e);
+    box-shadow: var(--glow-red);
+    clip-path: polygon(5px 100%, 0 0, 100% 0, calc(100% - 5px) 100%);
+  }
+
+  .motel-sign-art {
+    position: absolute;
+    top: -75px; right: -20px;
+    width: 60px;
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .sign-pole {
+    width: 4px;
+    height: 60px;
+    background: #555;
+    margin-top: auto;
+  }
+
+  .sign-box {
+    width: 55px;
+    height: 40px;
+    background: var(--night);
+    border: 2px solid var(--neon-red);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.55rem;
+    letter-spacing: 0.08em;
+    color: var(--neon-red);
+    text-shadow: var(--glow-red);
+    box-shadow: var(--glow-red);
+    animation: flicker 8s 2s infinite;
+  }
+
+  .motel-windows {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    padding: 20px 15px 30px;
+  }
+
+  .motel-window {
+    height: 28px;
+    background: rgba(255,184,48,0.15);
+    border: 1px solid rgba(255,184,48,0.3);
+    animation: window-glow 3s infinite alternate;
+  }
+
+  .motel-window:nth-child(2) { animation-delay: 0.5s; background: rgba(255,184,48,0.08); }
+  .motel-window:nth-child(3) { animation-delay: 1.2s; }
+  .motel-window:nth-child(4) { animation-delay: 0.8s; background: rgba(255,184,48,0.05); }
+  .motel-window:nth-child(5) { animation-delay: 1.5s; }
+  .motel-window:nth-child(6) { animation-delay: 0.3s; background: rgba(255,184,48,0.2); }
+  .motel-window:nth-child(7) { animation-delay: 1s; background: rgba(255,184,48,0.08); }
+  .motel-window:nth-child(8) { animation-delay: 0.7s; }
+
+  @keyframes window-glow {
+    from { background: rgba(255,184,48,0.08); }
+    to { background: rgba(255,184,48,0.25); }
+  }
+
+  .motel-door {
+    position: absolute;
+    bottom: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 30px;
+    height: 45px;
+    background: #2a1f10;
+    border: 1px solid rgba(255,184,48,0.3);
+    border-bottom: none;
+  }
+
+  .road-art {
+    position: absolute;
+    bottom: -10px; left: 50%;
+    transform: translateX(-50%);
+    width: 300px;
+    height: 25px;
+    background: #1a1a2e;
+    border-top: 2px solid rgba(255,184,48,0.2);
+  }
+
+  .road-dashes {
+    position: absolute;
+    top: 50%; left: 0; right: 0;
+    transform: translateY(-50%);
+    height: 2px;
+    background: repeating-linear-gradient(
+      to right,
+      rgba(255,184,48,0.3) 0, rgba(255,184,48,0.3) 15px,
+      transparent 15px, transparent 30px
+    );
+  }
+
+  .about-text {
+    padding: 5rem 4rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1.5rem;
+  }
+
+  .about-text h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.4rem;
+    font-weight: 400;
+    line-height: 1.2;
+  }
+
+  .about-text h2 em {
+    color: var(--neon-amber);
+    font-style: italic;
+    text-shadow: var(--glow-amber);
+  }
+
+  .about-text p {
+    color: var(--muted);
+    line-height: 1.8;
+    font-size: 1.05rem;
+  }
+
+  .about-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 0.5rem;
+    border-top: 1px solid rgba(255,184,48,0.15);
+    padding-top: 1.5rem;
+  }
+
+  .stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem;
+    color: var(--neon-amber);
+    text-shadow: var(--glow-amber);
+    display: block;
+  }
+
+  .stat-label {
+    font-size: 0.8rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* ── ROOMS ── */
+  #rooms {
+    background: var(--night);
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .rooms-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5px;
+    background: rgba(255,184,48,0.08);
+  }
+
+  .room-card {
+    background: var(--night);
+    padding: 2.5rem 2rem;
+    position: relative;
+    transition: background 0.3s;
+    overflow: hidden;
+    cursor: pointer;
+  }
+
+  .room-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--neon-amber);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease;
+  }
+
+  .room-card:hover { background: #0f1220; }
+  .room-card:hover::before { transform: scaleX(1); }
+
+  .room-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 3rem;
+    color: rgba(255,184,48,0.12);
+    line-height: 1;
+    margin-bottom: 1rem;
+    transition: color 0.3s;
+  }
+
+  .room-card:hover .room-num { color: rgba(255,184,48,0.25); }
+
+  .room-type {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    color: var(--neon-teal);
+    margin-bottom: 0.4rem;
+  }
+
+  .room-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    font-weight: 400;
+    margin-bottom: 1rem;
+    line-height: 1.15;
+  }
+
+  .room-desc {
+    color: var(--muted);
+    font-size: 0.95rem;
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+  }
+
+  .room-amenities {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.8rem;
+  }
+
+  .amenity-tag {
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.25rem 0.6rem;
+    border: 1px solid rgba(245,230,200,0.15);
+    color: var(--muted);
+  }
+
+  .room-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .room-price {
+    display: flex;
+    align-items: baseline;
+    gap: 0.3rem;
+  }
+
+  .price-val {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem;
+    color: var(--neon-amber);
+    text-shadow: var(--glow-amber);
+  }
+
+  .price-unit {
+    font-size: 0.75rem;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .room-btn {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.15em;
+    color: var(--neon-red);
+    background: none;
+    border: 1px solid var(--neon-red);
+    padding: 0.4rem 1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .room-btn:hover {
+    background: var(--neon-red);
+    color: var(--night);
+    box-shadow: var(--glow-red);
+  }
+
+  /* ── AMENITIES ── */
+  #amenities {
+    background: var(--deep);
+    text-align: center;
+  }
+
+  .amenities-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 2px;
+    max-width: 1000px;
+    margin: 0 auto;
+    background: rgba(255,184,48,0.05);
+  }
+
+  .amenity-item {
+    background: var(--deep);
+    padding: 2.5rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    transition: background 0.3s;
+  }
+
+  .amenity-item:hover { background: #141826; }
+
+  .amenity-icon {
+    font-size: 2rem;
+    filter: drop-shadow(0 0 6px rgba(255,184,48,0.5));
+  }
+
+  .amenity-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.2em;
+    color: var(--cream);
+    opacity: 0.7;
+  }
+
+  /* ── BOOKING ── */
+  #booking {
+    background: var(--night);
+    position: relative;
+    overflow: hidden;
+  }
+
+  #booking::before {
+    content: '';
+    position: absolute;
+    top: -100px; left: 50%;
+    transform: translateX(-50%);
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(255,59,78,0.06) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .booking-inner {
+    max-width: 700px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  .booking-form {
+    background: var(--deep);
+    border: 1px solid rgba(255,184,48,0.15);
+    padding: 3rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+
+  .booking-form .full-width { grid-column: 1 / -1; }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .form-label {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    color: var(--muted);
+  }
+
+  .form-input, .form-select {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,184,48,0.2);
+    color: var(--cream);
+    font-family: 'Crimson Pro', serif;
+    font-size: 1rem;
+    padding: 0.75rem 1rem;
+    outline: none;
+    transition: border-color 0.2s;
+    appearance: none;
+  }
+
+  .form-input:focus, .form-select:focus {
+    border-color: var(--neon-amber);
+  }
+
+  .form-input::placeholder { color: var(--muted); opacity: 0.5; }
+
+  .form-select option { background: var(--deep); }
+
+  .submit-btn {
+    width: 100%;
+    padding: 1rem;
+    background: var(--neon-red);
+    color: var(--night);
+    border: none;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.1rem;
+    letter-spacing: 0.2em;
+    cursor: pointer;
+    transition: box-shadow 0.2s, transform 0.2s;
+    box-shadow: var(--glow-red);
+    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+  }
+
+  .submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 25px #ff3b4eaa, 0 0 60px #ff3b4e55;
+  }
+
+  /* ── DIVIDER ── */
+  .road-divider {
+    height: 60px;
+    background:
+      linear-gradient(to bottom, var(--night) 30%, #1a1a2e 30%, #1a1a2e 40%, var(--night) 40%);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .road-divider::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 0; right: 0;
+    height: 2px;
+    transform: translateY(-50%);
+    background: repeating-linear-gradient(
+      to right,
+      rgba(255,184,48,0.4) 0, rgba(255,184,48,0.4) 30px,
+      transparent 30px, transparent 70px
+    );
+    animation: road-move 3s linear infinite;
+  }
+
+  @keyframes road-move {
+    from { transform: translateY(-50%) translateX(0); }
+    to { transform: translateY(-50%) translateX(-70px); }
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: #07080f;
+    padding: 4rem 3rem 2.5rem;
+    border-top: 1px solid rgba(255,184,48,0.1);
+  }
+
+  .footer-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 3rem;
+    margin-bottom: 3rem;
+  }
+
+  .footer-brand .brand-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem;
+    letter-spacing: 0.08em;
+    color: var(--neon-amber);
+    text-shadow: var(--glow-amber);
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+
+  .footer-brand p {
+    color: var(--muted);
+    font-size: 0.9rem;
+    line-height: 1.7;
+    max-width: 260px;
+  }
+
+  .footer-col h4 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.3em;
+    color: var(--neon-red);
+    margin-bottom: 1.2rem;
+  }
+
+  .footer-col ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+  }
+
+  .footer-col ul a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.2s;
+  }
+
+  .footer-col ul a:hover { color: var(--cream); }
+
+  .footer-bottom {
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding-top: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-bottom p {
+    font-size: 0.8rem;
+    color: var(--muted);
+    opacity: 0.6;
+  }
+
+  .footer-tagline {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 0.85rem;
+    color: var(--neon-amber);
+    opacity: 0.6;
+  }
+
+  /* ── SCROLL REVEAL ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(25px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+
+    #about { grid-template-columns: 1fr; }
+    .about-visual { min-height: 280px; }
+    .about-text { padding: 3rem 2rem; }
+
+    .booking-form { grid-template-columns: 1fr; }
+    .booking-form .full-width { grid-column: 1; }
+
+    .footer-inner { grid-template-columns: 1fr 1fr; }
+    .footer-brand { grid-column: 1 / -1; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Sunset Strip</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#rooms">Rooms</a></li>
+    <li><a href="#amenities">Amenities</a></li>
+    <li><a href="#booking">Contact</a></li>
+  </ul>
+  <button class="nav-book" onclick="document.getElementById('booking').scrollIntoView({behavior:'smooth'})">Reserve Now</button>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-content">
+    <div class="hero-eyebrow">&#9670; Route 66 · Mile Marker 248 &#9670;</div>
+    <div class="neon-sign">
+      <span class="line1">SUNSET</span>
+      <span class="line2">Strip</span>
+      <span class="line3">MOTEL</span>
+    </div>
+    <p class="hero-tag">Where the road never really ends — it just rests for the night.</p>
+    <div class="vacancy-badge">
+      <span class="vacancy-dot"></span>
+      Vacancy Available Tonight
+    </div>
+    <div class="hero-cta">
+      <button class="btn-primary" onclick="document.getElementById('rooms').scrollIntoView({behavior:'smooth'})">View Rooms</button>
+      <button class="btn-ghost" onclick="document.getElementById('booking').scrollIntoView({behavior:'smooth'})">Make a Reservation</button>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-visual">
+    <div class="motel-illustration">
+      <div class="motel-art">
+        <div class="motel-sign-art">
+          <div class="sign-box">MOTEL</div>
+          <div class="sign-pole"></div>
+        </div>
+        <div class="motel-roof"></div>
+        <div class="motel-building">
+          <div class="motel-windows">
+            <div class="motel-window"></div>
+            <div class="motel-window"></div>
+            <div class="motel-window"></div>
+            <div class="motel-window"></div>
+            <div class="motel-window"></div>
+            <div class="motel-window"></div>
+            <div class="motel-window"></div>
+            <div class="motel-window"></div>
+          </div>
+          <div class="motel-door"></div>
+        </div>
+        <div class="road-art"><div class="road-dashes"></div></div>
+      </div>
+    </div>
+  </div>
+  <div class="about-text reveal">
+    <div class="section-label" style="text-align:left">&#9670; Our Story</div>
+    <h2>A Landmark Since <em>1962</em></h2>
+    <p>
+      Built when Route 66 was still the spine of the American dream, Sunset Strip Motel has welcomed road-weary travelers, honeymooners, wanderers, and writers for over six decades.
+    </p>
+    <p>
+      We haven't forgotten what a motel is supposed to feel like — neon buzzing in the evening air, clean sheets, an ice machine around the corner, and a diner across the road with coffee that keeps you going another hundred miles.
+    </p>
+    <div class="about-stats">
+      <div>
+        <span class="stat-num">62</span>
+        <span class="stat-label">Years on Route 66</span>
+      </div>
+      <div>
+        <span class="stat-num">38</span>
+        <span class="stat-label">Rooms & Suites</span>
+      </div>
+      <div>
+        <span class="stat-num">4.8★</span>
+        <span class="stat-label">Guest Rating</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="road-divider"></div>
+
+<!-- ROOMS -->
+<section id="rooms">
+  <div class="section-label reveal">&#9670; Accommodations</div>
+  <h2 class="section-title reveal">Pick Your Room</h2>
+  <p class="section-sub reveal">Every room cleaned like it's your grandmother's guest room. Every bed made like someone cares. Because someone does.</p>
+
+  <div class="rooms-grid">
+    <div class="room-card reveal">
+      <div class="room-num">01</div>
+      <div class="room-type">Standard</div>
+      <h3 class="room-name">Classic King Room</h3>
+      <p class="room-desc">A solid night's sleep on Route 66. Vintage tile in the bathroom, blackout curtains, and a view of the parking lot you'll somehow find charming.</p>
+      <div class="room-amenities">
+        <span class="amenity-tag">King Bed</span>
+        <span class="amenity-tag">Free WiFi</span>
+        <span class="amenity-tag">Cable TV</span>
+        <span class="amenity-tag">AC</span>
+      </div>
+      <div class="room-footer">
+        <div class="room-price">
+          <span class="price-val">$79</span>
+          <span class="price-unit">/ night</span>
+        </div>
+        <button class="room-btn">Book Room</button>
+      </div>
+    </div>
+
+    <div class="room-card reveal">
+      <div class="room-num">02</div>
+      <div class="room-type">Deluxe</div>
+      <h3 class="room-name">Double Queen Suite</h3>
+      <p class="room-desc">Two queens, a kitchenette, and a little sitting area. Perfect for families or solo travelers who just like having extra space to spread out the road map.</p>
+      <div class="room-amenities">
+        <span class="amenity-tag">2 Queen Beds</span>
+        <span class="amenity-tag">Kitchenette</span>
+        <span class="amenity-tag">Free WiFi</span>
+        <span class="amenity-tag">Mini Fridge</span>
+      </div>
+      <div class="room-footer">
+        <div class="room-price">
+          <span class="price-val">$109</span>
+          <span class="price-unit">/ night</span>
+        </div>
+        <button class="room-btn">Book Room</button>
+      </div>
+    </div>
+
+    <div class="room-card reveal">
+      <div class="room-num">03</div>
+      <div class="room-type">Premium</div>
+      <h3 class="room-name">The Neon Suite</h3>
+      <p class="room-desc">Our most beloved room. Corner suite with a wrap-around view of the desert horizon, a claw-foot tub, and original 1960s neon accents restored to full glow.</p>
+      <div class="room-amenities">
+        <span class="amenity-tag">King Bed</span>
+        <span class="amenity-tag">Claw-foot Tub</span>
+        <span class="amenity-tag">Desert View</span>
+        <span class="amenity-tag">Bar Cart</span>
+        <span class="amenity-tag">Record Player</span>
+      </div>
+      <div class="room-footer">
+        <div class="room-price">
+          <span class="price-val">$189</span>
+          <span class="price-unit">/ night</span>
+        </div>
+        <button class="room-btn">Book Room</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AMENITIES -->
+<section id="amenities">
+  <div class="section-label reveal">&#9670; On-Site</div>
+  <h2 class="section-title reveal">Everything You Need</h2>
+  <p class="section-sub reveal">We keep it simple and we keep it real.</p>
+
+  <div class="amenities-grid">
+    <div class="amenity-item reveal"><div class="amenity-icon">🏊</div><div class="amenity-name">Outdoor Pool</div></div>
+    <div class="amenity-item reveal"><div class="amenity-icon">☕</div><div class="amenity-name">24hr Diner</div></div>
+    <div class="amenity-item reveal"><div class="amenity-icon">🅿️</div><div class="amenity-name">Free Parking</div></div>
+    <div class="amenity-item reveal"><div class="amenity-icon">🐕</div><div class="amenity-name">Pet Friendly</div></div>
+    <div class="amenity-item reveal"><div class="amenity-icon">📶</div><div class="amenity-name">Fast WiFi</div></div>
+    <div class="amenity-item reveal"><div class="amenity-icon">🧺</div><div class="amenity-name">Laundromat</div></div>
+    <div class="amenity-item reveal"><div class="amenity-icon">🛒</div><div class="amenity-name">Vending Alley</div></div>
+    <div class="amenity-item reveal"><div class="amenity-icon">🌙</div><div class="amenity-name">Night Desk</div></div>
+  </div>
+</section>
+
+<div class="road-divider"></div>
+
+<!-- BOOKING -->
+<section id="booking">
+  <div class="section-label reveal">&#9670; Reservations</div>
+  <h2 class="section-title reveal">Reserve Your Room</h2>
+  <p class="section-sub reveal">Call ahead or fill out the form. Either way, we'll have the light on for you.</p>
+
+  <div class="booking-inner">
+    <div class="booking-form reveal">
+      <div class="form-group">
+        <label class="form-label">First Name</label>
+        <input class="form-input" type="text" placeholder="Jack">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Last Name</label>
+        <input class="form-input" type="text" placeholder="Kerouac">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Check-In</label>
+        <input class="form-input" type="date">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Check-Out</label>
+        <input class="form-input" type="date">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Room Type</label>
+        <select class="form-select">
+          <option value="">Select a room...</option>
+          <option>Classic King Room — $79/night</option>
+          <option>Double Queen Suite — $109/night</option>
+          <option>The Neon Suite — $189/night</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Guests</label>
+        <select class="form-select">
+          <option>1 Guest</option>
+          <option>2 Guests</option>
+          <option>3 Guests</option>
+          <option>4+ Guests</option>
+        </select>
+      </div>
+      <div class="form-group full-width">
+        <label class="form-label">Special Requests</label>
+        <input class="form-input" type="text" placeholder="Crib, early check-in, pet...">
+      </div>
+      <div class="full-width">
+        <button class="submit-btn">Reserve My Room Tonight</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <span class="brand-name">Sunset Strip Motel</span>
+      <p>Route 66, Mile Marker 248<br>Seligman, Arizona 86337<br><br>
+      📞 (928) 555-0162<br>
+      ✉️ hello@sunsetstripmotel.com</p>
+    </div>
+    <div class="footer-col">
+      <h4>Rooms</h4>
+      <ul>
+        <li><a href="#">Classic King</a></li>
+        <li><a href="#">Double Queen</a></li>
+        <li><a href="#">Neon Suite</a></li>
+        <li><a href="#">Group Rates</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Explore</h4>
+      <ul>
+        <li><a href="#">Route 66 Map</a></li>
+        <li><a href="#">Nearby Stops</a></li>
+        <li><a href="#">Desert Hikes</a></li>
+        <li><a href="#">Our Diner</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Info</h4>
+      <ul>
+        <li><a href="#">Check-in / Out</a></li>
+        <li><a href="#">Pet Policy</a></li>
+        <li><a href="#">Cancellations</a></li>
+        <li><a href="#">Gift Cards</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2024 Sunset Strip Motel · All Rights Reserved</p>
+    <span class="footer-tagline">We'll leave the light on for you.</span>
+  </div>
+</footer>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  reveals.forEach(el => observer.observe(el));
+
+  // Smooth nav link scrolling
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) target.scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+
+  // Nav background on scroll
+  const nav = document.querySelector('nav');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 60) {
+      nav.style.background = 'rgba(10,12,20,0.97)';
+    } else {
+      nav.style.background = 'linear-gradient(to bottom, rgba(10,12,20,0.95), transparent)';
+    }
+  });
+</script>
+
+<!-- ── CHATBOT ── -->
+<style>
+  /* Floating button */
+  #chat-toggle {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    z-index: 500;
+    width: 62px;
+    height: 62px;
+    border-radius: 50%;
+    background: var(--night);
+    border: 2px solid var(--neon-amber);
+    box-shadow: var(--glow-amber);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 2px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    animation: pulse-amber 3s infinite;
+  }
+  @keyframes pulse-amber {
+    0%,100% { box-shadow: var(--glow-amber); }
+    50% { box-shadow: 0 0 20px #ffb830cc, 0 0 50px #ffb83066; }
+  }
+  #chat-toggle:hover { transform: scale(1.08); }
+  #chat-toggle .toggle-icon { font-size: 1.5rem; transition: opacity 0.2s; }
+  #chat-toggle .toggle-label {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.45rem;
+    letter-spacing: 0.15em;
+    color: var(--neon-amber);
+    line-height: 1;
+  }
+
+  /* Notification dot */
+  #chat-notif {
+    position: fixed;
+    bottom: calc(2rem + 42px);
+    right: 2rem;
+    z-index: 501;
+    width: 12px; height: 12px;
+    background: var(--neon-red);
+    border-radius: 50%;
+    border: 2px solid var(--night);
+    box-shadow: var(--glow-red);
+    animation: blink 1.5s infinite;
+    display: none;
+  }
+
+  /* Chat window */
+  #chat-window {
+    position: fixed;
+    bottom: 6rem;
+    right: 2rem;
+    z-index: 499;
+    width: 360px;
+    max-height: 520px;
+    background: var(--deep);
+    border: 1px solid rgba(255,184,48,0.25);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6), var(--glow-amber);
+    display: flex;
+    flex-direction: column;
+    transform: scale(0.85) translateY(20px);
+    transform-origin: bottom right;
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1), opacity 0.25s ease;
+  }
+  #chat-window.open {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  /* Header */
+  .chat-header {
+    background: var(--night);
+    border-bottom: 1px solid rgba(255,184,48,0.15);
+    padding: 1rem 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    flex-shrink: 0;
+  }
+  .chat-avatar {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: var(--night);
+    border: 1.5px solid var(--neon-amber);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    box-shadow: var(--glow-amber);
+    flex-shrink: 0;
+  }
+  .chat-header-info { flex: 1; }
+  .chat-agent-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.15em;
+    color: var(--neon-amber);
+  }
+  .chat-status {
+    font-size: 0.7rem;
+    color: var(--neon-teal);
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+  }
+  .chat-status::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--neon-teal);
+    border-radius: 50%;
+    animation: blink 1.5s infinite;
+  }
+  .chat-close {
+    background: none;
+    border: none;
+    color: var(--muted);
+    font-size: 1.1rem;
+    cursor: pointer;
+    padding: 0.2rem 0.4rem;
+    transition: color 0.2s;
+  }
+  .chat-close:hover { color: var(--cream); }
+
+  /* Messages */
+  .chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1.2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+    scroll-behavior: smooth;
+  }
+  .chat-messages::-webkit-scrollbar { width: 3px; }
+  .chat-messages::-webkit-scrollbar-track { background: transparent; }
+  .chat-messages::-webkit-scrollbar-thumb { background: rgba(255,184,48,0.3); border-radius: 2px; }
+
+  .msg {
+    display: flex;
+    flex-direction: column;
+    max-width: 84%;
+    animation: msgIn 0.3s ease both;
+  }
+  @keyframes msgIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .msg.bot { align-self: flex-start; }
+  .msg.user { align-self: flex-end; }
+
+  .msg-bubble {
+    padding: 0.65rem 0.9rem;
+    font-size: 0.88rem;
+    line-height: 1.55;
+    border-radius: 2px;
+  }
+  .msg.bot .msg-bubble {
+    background: rgba(255,184,48,0.07);
+    border: 1px solid rgba(255,184,48,0.15);
+    color: var(--cream);
+    border-radius: 2px 12px 12px 2px;
+  }
+  .msg.user .msg-bubble {
+    background: var(--neon-red);
+    color: var(--night);
+    font-weight: 400;
+    border-radius: 12px 2px 2px 12px;
+  }
+  .msg-time {
+    font-size: 0.65rem;
+    color: var(--muted);
+    margin-top: 0.2rem;
+    opacity: 0.6;
+  }
+  .msg.user .msg-time { text-align: right; }
+
+  /* Typing indicator */
+  .typing-bubble {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 0.65rem 0.9rem;
+    background: rgba(255,184,48,0.07);
+    border: 1px solid rgba(255,184,48,0.15);
+    width: fit-content;
+    border-radius: 2px 12px 12px 2px;
+  }
+  .typing-bubble span {
+    width: 6px; height: 6px;
+    background: var(--neon-amber);
+    border-radius: 50%;
+    animation: typing-dot 1.2s infinite;
+  }
+  .typing-bubble span:nth-child(2) { animation-delay: 0.2s; }
+  .typing-bubble span:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes typing-dot {
+    0%,60%,100% { transform: translateY(0); opacity: 0.4; }
+    30% { transform: translateY(-5px); opacity: 1; }
+  }
+
+  /* Quick replies */
+  .quick-replies {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    padding: 0 1.2rem 0.8rem;
+  }
+  .quick-btn {
+    font-family: 'Crimson Pro', serif;
+    font-size: 0.8rem;
+    padding: 0.3rem 0.75rem;
+    background: transparent;
+    border: 1px solid rgba(255,184,48,0.3);
+    color: var(--neon-amber);
+    cursor: pointer;
+    transition: all 0.2s;
+    border-radius: 2px;
+  }
+  .quick-btn:hover {
+    background: rgba(255,184,48,0.1);
+    border-color: var(--neon-amber);
+  }
+
+  /* Input area */
+  .chat-input-area {
+    border-top: 1px solid rgba(255,184,48,0.12);
+    padding: 0.8rem 1rem;
+    display: flex;
+    gap: 0.6rem;
+    flex-shrink: 0;
+  }
+  .chat-input {
+    flex: 1;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,184,48,0.2);
+    color: var(--cream);
+    font-family: 'Crimson Pro', serif;
+    font-size: 0.9rem;
+    padding: 0.55rem 0.8rem;
+    outline: none;
+    transition: border-color 0.2s;
+    border-radius: 2px;
+  }
+  .chat-input:focus { border-color: var(--neon-amber); }
+  .chat-input::placeholder { color: var(--muted); opacity: 0.5; font-style: italic; }
+  .chat-send {
+    background: var(--neon-amber);
+    border: none;
+    color: var(--night);
+    font-size: 1rem;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 2px;
+    flex-shrink: 0;
+    transition: box-shadow 0.2s, transform 0.15s;
+  }
+  .chat-send:hover {
+    box-shadow: var(--glow-amber);
+    transform: scale(1.05);
+  }
+  .chat-send:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+  @media (max-width: 420px) {
+    #chat-window { right: 1rem; left: 1rem; width: auto; }
+    #chat-toggle { bottom: 1.2rem; right: 1.2rem; }
+  }
+</style>
+
+<!-- Chat toggle button -->
+<div id="chat-notif"></div>
+<button id="chat-toggle" onclick="toggleChat()" aria-label="Open chat">
+  <span class="toggle-icon" id="toggle-icon">💬</span>
+  <span class="toggle-label">CONCIERGE</span>
+</button>
+
+<!-- Chat window -->
+<div id="chat-window">
+  <div class="chat-header">
+    <div class="chat-avatar">🏨</div>
+    <div class="chat-header-info">
+      <div class="chat-agent-name">Sunny — Night Concierge</div>
+      <div class="chat-status">Online now</div>
+    </div>
+    <button class="chat-close" onclick="toggleChat()">✕</button>
+  </div>
+
+  <div class="chat-messages" id="chat-messages"></div>
+
+  <div class="quick-replies" id="quick-replies">
+    <button class="quick-btn" onclick="sendQuick('What rooms do you have?')">Rooms</button>
+    <button class="quick-btn" onclick="sendQuick('How much does a room cost?')">Pricing</button>
+    <button class="quick-btn" onclick="sendQuick('Do you allow pets?')">Pets</button>
+    <button class="quick-btn" onclick="sendQuick('Where are you located?')">Location</button>
+  </div>
+
+  <div class="chat-input-area">
+    <input class="chat-input" id="chat-input" type="text" placeholder="Ask me anything..." maxlength="300"
+      onkeydown="if(event.key==='Enter') sendMessage()">
+    <button class="chat-send" id="chat-send" onclick="sendMessage()" title="Send">➤</button>
+  </div>
+</div>
+
+<script>
+  // ── CHATBOT STATE ──
+  let chatOpen = false;
+  let chatHistory = [];
+  let isBotTyping = false;
+
+  const SYSTEM_PROMPT = `You are Sunny, the warm and slightly nostalgic night concierge at Sunset Strip Motel on Route 66, Seligman, Arizona. You've worked here since 1987 and you love this place like family.
+
+Speak in a friendly, slightly folksy tone. Keep replies short — 2-4 sentences max. Use the occasional Route 66 metaphor. Never be robotic.
+
+Key facts:
+- 38 rooms total. Three types:
+  • Classic King Room: $79/night. King bed, free WiFi, cable TV, AC.
+  • Double Queen Suite: $109/night. 2 queens, kitchenette, mini fridge.
+  • The Neon Suite: $189/night. Corner suite, claw-foot tub, desert view, bar cart, record player.
+- Check-in: 2 PM. Check-out: 11 AM. Early/late arrangements possible.
+- Pet-friendly (small pets, $15/night fee).
+- Amenities: outdoor pool, 24hr diner next door, free parking, laundromat, vending alley, night desk.
+- Location: Route 66, Mile Marker 248, Seligman, AZ 86337.
+- Phone: (928) 555-0162. Email: hello@sunsetstripmotel.com
+- Cancellation: free up to 48hrs before arrival.
+- Built in 1962. Family-owned the whole time.
+
+If asked to book, direct them to the reservation form on this page or call the number above. Never make up information not listed here.`;
+
+  function toggleChat() {
+    chatOpen = !chatOpen;
+    const win = document.getElementById('chat-window');
+    const icon = document.getElementById('toggle-icon');
+    const notif = document.getElementById('chat-notif');
+
+    win.classList.toggle('open', chatOpen);
+    icon.textContent = chatOpen ? '✕' : '💬';
+    notif.style.display = 'none';
+
+    if (chatOpen && chatHistory.length === 0) {
+      setTimeout(() => addBotMessage("Hey there, traveler! 🌙 I'm Sunny, your night concierge. Whether you need a room, have a question about Route 66, or just want to know if the pool's warm — I'm here all night. What can I do for you?"), 400);
+    }
+  }
+
+  function addBotMessage(text) {
+    const msgs = document.getElementById('chat-messages');
+    const div = document.createElement('div');
+    div.className = 'msg bot';
+    const time = new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
+    div.innerHTML = `<div class="msg-bubble">${text}</div><div class="msg-time">${time}</div>`;
+    msgs.appendChild(div);
+    msgs.scrollTop = msgs.scrollHeight;
+  }
+
+  function addUserMessage(text) {
+    const msgs = document.getElementById('chat-messages');
+    const div = document.createElement('div');
+    div.className = 'msg user';
+    const time = new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
+    div.innerHTML = `<div class="msg-bubble">${text}</div><div class="msg-time">${time}</div>`;
+    msgs.appendChild(div);
+    msgs.scrollTop = msgs.scrollHeight;
+  }
+
+  function showTyping() {
+    const msgs = document.getElementById('chat-messages');
+    const div = document.createElement('div');
+    div.className = 'msg bot';
+    div.id = 'typing-indicator';
+    div.innerHTML = `<div class="typing-bubble"><span></span><span></span><span></span></div>`;
+    msgs.appendChild(div);
+    msgs.scrollTop = msgs.scrollHeight;
+  }
+
+  function hideTyping() {
+    const t = document.getElementById('typing-indicator');
+    if (t) t.remove();
+  }
+
+  function hideQuickReplies() {
+    document.getElementById('quick-replies').style.display = 'none';
+  }
+
+  async function sendMessage() {
+    const input = document.getElementById('chat-input');
+    const sendBtn = document.getElementById('chat-send');
+    const text = input.value.trim();
+    if (!text || isBotTyping) return;
+
+    input.value = '';
+    hideQuickReplies();
+    addUserMessage(text);
+    chatHistory.push({ role: 'user', content: text });
+
+    isBotTyping = true;
+    sendBtn.disabled = true;
+    showTyping();
+
+    try {
+      const response = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-20250514',
+          max_tokens: 1000,
+          system: SYSTEM_PROMPT,
+          messages: chatHistory
+        })
+      });
+
+      const data = await response.json();
+      hideTyping();
+
+      const reply = data.content?.[0]?.text || "Sorry, the phone line crackled there. Could you say that again?";
+      chatHistory.push({ role: 'assistant', content: reply });
+      addBotMessage(reply);
+
+    } catch (err) {
+      hideTyping();
+      addBotMessage("The switchboard's acting up tonight — old building, you know how it is. Try again in a moment!");
+    }
+
+    isBotTyping = false;
+    sendBtn.disabled = false;
+    input.focus();
+  }
+
+  function sendQuick(text) {
+    document.getElementById('chat-input').value = text;
+    sendMessage();
+  }
+
+  // Show notification dot after 4s if chat hasn't been opened
+  setTimeout(() => {
+    if (!chatOpen) {
+      document.getElementById('chat-notif').style.display = 'block';
+    }
+  }, 4000);
+</script>
+</body>
+</html>
